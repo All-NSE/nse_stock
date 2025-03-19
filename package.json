@@ -1,0 +1,25 @@
+{
+  "name": "all-nse",
+  "version": "1.0.0",
+  "description": "A simple Node.js package to fetch stock data from NSE India",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Diwakar Kashyap",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  },
+  "keywords": ["nse", "stock-market", "india", "trading"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/All-NSE/nse_stock.git"
+  },
+
+    "module": "index.mjs",
+    "types": "index.d.ts"
+    
+  }
+
