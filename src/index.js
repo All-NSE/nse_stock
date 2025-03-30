@@ -28,9 +28,9 @@ export class All_NSE {
 
         let cookie = await this.getCookie()
 
-        console.log("----------------------------------")
-        console.log(cookie)
-        console.log("----------------------------------")
+        // console.log("----------------------------------")
+        // console.log(cookie)
+        // console.log("----------------------------------")
 
 
         const response = await fetch(`https://www.nseindia.com/api/quote-equity?symbol=${symbol}`, {
