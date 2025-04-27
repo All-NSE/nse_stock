@@ -3,7 +3,8 @@ export class All_NSE {
 
     async getCookie() {
         try {
-            const response = await fetch('https://www.nseindi.com', {
+            // console.log("working")
+            const response = await fetch('https://www.nseindia.com/get-quotes/derivatives?symbol=NIFTY', {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -13,8 +14,11 @@ export class All_NSE {
             }
 
             const cookies = response.headers.get('set-cookie');
+            // console.log('====================================');
+            // console.log('Cookies:', cookies);
+            // console.log('====================================');
             let requiredCookies = this.extractCookies(cookies);
-
+            // console.log(requiredCookies)
             return requiredCookies;
         } catch (error) {
             console.error("Error fetching NSE Cookie:", error);
@@ -25,7 +29,7 @@ export class All_NSE {
     extractCookies(cookieStr) {
         const nsitMatch = cookieStr.match(/nsit=([^;]+)/);
         const nseappidMatch = cookieStr.match(/nseappid=([^;]+)/);
-        console.log(nseappidMatch[1])
+        // console.log(nseappidMatch[1])
 
         if (nsitMatch && nseappidMatch) {
             return `${nsitMatch[0]}; ${nseappidMatch[0]}`;
@@ -60,6 +64,8 @@ export class All_NSE {
 
         } catch (error) {
             console.error("Error fetching NSE Data:", error);
+            console.error("Error message:", error.message);
+            console.error("Error stack trace:", error.stack);
             throw new Error(`Error fetching NSE Data: ${error.message}`);
         }
     }
@@ -67,8 +73,8 @@ export class All_NSE {
 }
 
 // // Instantiate the class and call the method
-// const data = new All_NSE();
-// data.getData('REFEpX').then(cookies => {
-//     console.log('Returned Cookies:', cookies);
-//     process.exit()
-// });
+const data = new All_NSE();
+data.getData('REFEX').then(cookies => {
+    console.log('Returned Cookies:', cookies);
+    process.exit()
+});

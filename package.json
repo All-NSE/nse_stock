@@ -1,6 +1,6 @@
 {
   "name": "all-nse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple Node.js package to fetch stock data from NSE India",
   "main": "index.js",
   "type": "module",

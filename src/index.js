@@ -1,8 +1,8 @@
 export class All_NSE {
     constructor() { }
 
-    async getCookie() {
-        const response = await fetch('https://www.nseindia.com', {
+    async getCookie(symbol) {
+        const response = await fetch(`https://www.nseindia.com/get-quotes/derivatives?symbol=${symbol}`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -26,7 +26,7 @@ export class All_NSE {
 
     async getData(symbol) {
 
-        let cookie = await this.getCookie()
+        let cookie = await this.getCookie(symbol)
 
         // console.log("----------------------------------")
         // console.log(cookie)
