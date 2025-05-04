@@ -1,3 +1,5 @@
+import { fetchData, extractCookies } from "./helper.js";
+
 export class All_NSE {
     constructor() { }
 
@@ -7,50 +9,34 @@ export class All_NSE {
             credentials: 'include',
         });
         const cookies = response.headers.get('set-cookie');
-        let requiredCookies = this.extractCookies(cookies)
+        let requiredCookies = extractCookies(cookies)
 
         return requiredCookies;
     }
 
-    extractCookies(cookieStr) {
-        const nsitMatch = cookieStr.match(/nsit=([^;]+)/);
-        const nseappidMatch = cookieStr.match(/nseappid=([^;]+)/);
-        // console.log(nseappidMatch[1])
-
-        if (nsitMatch && nseappidMatch) {
-            return `${nsitMatch[0]}; ${nseappidMatch[0]}`;
-        }
-        return '';
-    }
 
 
     async getData(symbol) {
-
-        let cookie = await this.getCookie(symbol)
-
-        // console.log("----------------------------------")
-        // console.log(cookie)
-        // console.log("----------------------------------")
-
-
-        const response = await fetch(`https://www.nseindia.com/api/quote-equity?symbol=${symbol}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-                // 'Referer': 'https://www.nseindia.com',
-                'Cookie': cookie
-            },
-        })
-
-        const data = await response.json()
-        return data;
-
+        try {
+            const cookie = await this.getCookie(symbol);
+            const data = await fetchData(symbol, cookie) || {};
+            return data;
+        } catch (error) {
+            console.error(`Error getting data for symbol "${symbol}":`, error.message);
+            return null;
+        }
     }
+
+    async getLiveData(symbol) {
+        try {
+            const cookie = await this.getCookie(symbol);
+            const { priceInfo } = await fetchData(symbol, cookie) || {};
+            return priceInfo ?? null;
+        } catch (error) {
+            console.error(`Error fetching live data for "${symbol}":`, error.message);
+            return null;
+        }
+    }
+
 }
 
-// Instantiate the class and call the method
-// const data = new All_NSE();
-// data.getData('REFEX').then(cookies => {
-//     console.log('Returned Cookies:', cookies);
-// });
