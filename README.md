@@ -11,7 +11,7 @@ A lightweight module to fetch **live stock price data** and full equity quote da
 You can use it directly in your project:
 
 ```bash
-npm install all-nse
+npm install nse-stock-india
 ```
 
 Ensure you're running it in a Node.js environment that supports `fetch` (Node.js v18+ or polyfilled).
