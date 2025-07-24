@@ -21,7 +21,7 @@ Ensure you're running it in a Node.js environment that supports `fetch` (Node.js
 
 ## 🚀 Usage
 
-![image](https://github.com/user-attachments/assets/cbd8903a-642c-48d8-afb6-58ad18abd67a)
+<img width="1345" height="417" alt="image" src="https://github.com/user-attachments/assets/667ff303-50c7-4509-8ab8-88ce3cfdc9c4" />
 
 ## 📚 API Reference
 
