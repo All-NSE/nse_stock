@@ -1,4 +1,5 @@
-import { fetchData, extractCookies } from "./helper.js";
+import { fetchData, extractCookies, fetchHistoricalData } from "./helper.js";
+import { validateHistoricalDataInput } from "./validator.js";
 
 export class All_NSE {
     constructor() { }
@@ -34,6 +35,18 @@ export class All_NSE {
             return priceInfo ?? null;
         } catch (error) {
             console.error(`Error fetching live data for "${symbol}":`, error.message);
+            return null;
+        }
+    }
+
+    async getHistoricalData(symbol, from, to, series = ['EQ']) {
+        try {
+            validateHistoricalDataInput(from, to, series);
+            const cookie = await this.getCookie(symbol);
+            const data = await fetchHistoricalData(symbol, from, to, series, cookie) || {};
+            return data ?? null;
+        } catch (error) {
+            console.error(`Error fetching historical data for "${symbol}":`, error.message);
             return null;
         }
     }

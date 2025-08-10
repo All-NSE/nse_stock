@@ -20,6 +20,29 @@ export const fetchData = async (symbol, cookie) => {
     }
 };
 
+export const fetchHistoricalData = async (symbol, from, to, series, cookie) => {
+    try {
+        const seriesParam = encodeURIComponent(JSON.stringify(series));
+        const response = await fetch(`https://www.nseindia.com/api/historical/cm/equity?symbol=${symbol}&series=${seriesParam}&from=${from}&to=${to}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Cookie': cookie
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error(`Failed to fetch data for symbol "${symbol}":`, error.message);
+        return null;
+    }
+};
+
 
 export const extractCookies = (cookieStr) => {
     const nsitMatch = cookieStr.match(/nsit=([^;]+)/);
