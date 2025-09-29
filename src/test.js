@@ -1,40 +1,56 @@
 import All_NSE from "../index.js";
 
-let instance = new All_NSE();
+// Create a reusable instance of the NSE API wrapper
+const nse = new All_NSE();
 
-const test_package = async (symbol) => {
+/**
+ * Test fetching the full equity quote data.
+ * @param {string} symbol - NSE stock symbol
+ */
+const testFullData = async (symbol) => {
     try {
-        let result = await instance.getData(symbol);
-        console.log(result);
+        const result = await nse.getData(symbol);
+        console.log("Full Data:", result);
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching full data:", error);
     }
-}
+};
 
-const test_live = async (symbol) => {
+/**
+ * Test fetching only the live price info (priceInfo).
+ * @param {string} symbol - NSE stock symbol
+ */
+const testLiveData = async (symbol) => {
     try {
-        let result = await instance.getLiveData(symbol);
-        console.log(result);
+        const result = await nse.getLiveData(symbol);
+        console.log("Live Price Info:", result);
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching live data:", error);
     }
-}
+};
 
-const historical_data = async (symbol) => {
+/**
+ * Test fetching historical OHLC data.
+ * @param {string} symbol - NSE stock symbol
+ */
+const testHistoricalData = async (symbol) => {
     try {
-        let result = await instance.getHistoricalData(symbol, '15-07-2025', '04-08-2025');
-        console.log(result);
+        // Dates must be in "DD-MM-YYYY" format
+        const result = await nse.getHistoricalData(symbol, "15-07-2025", "04-08-2025");
+        console.log("Historical Data:", result);
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching historical data:", error);
     }
-}
+};
 
-
-
-
+// 🔹 Example NSE API URLs (for reference/debugging):
 // https://www.nseindia.com/api/historical/cm/equity?symbol=REFEX&series=["BE","BZ"]&from=15-07-2025&to=04-08-2025
-// https://www.nseindia.com/api/historical/cm/equity?symbol=REFEX&series=[%22EQ%22]&from=05-08-2024&to=05-08-2025
+// https://www.nseindia.com/api/historical/cm/equity?symbol=REFEX&series=["EQ"]&from=05-08-2024&to=05-08-2025
 // https://www.nseindia.com/api/historical/cm/equity?symbol=REFEX&series=["BE","BZ","EQ"]&from=03-03-2025&to=05-08-2025
-// test_package('REFEX');
-// test_live('REFEX')
-// historical_data('REFEX')
+
+// 🔹 Run test functions here:
+(async () => {
+    await testFullData("REFEX");     // Fetch complete equity data
+    await testLiveData("REFEX");     // Fetch only live price info
+    await testHistoricalData("REFEX"); // Fetch historical OHLC data
+})();
