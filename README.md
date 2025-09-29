@@ -1,61 +1,70 @@
+# 📦 All_NSE JavaScript Package
 
-
-# 📦 All\_NSE JavaScript Package
-
-A lightweight module to fetch **live stock price data** and full equity quote data from **NSE India** using `fetch` and cookies handling.
+A lightweight Node.js module to fetch **live stock prices**, **full equity quotes**, and **historical data** from **NSE India** using `fetch` and cookie handling.
 
 ---
 
 ## 📁 Installation
 
-You can use it directly in your project:
+Install via npm:
 
 ```bash
 npm install nse-stock-india
 ```
 
-Ensure you're running it in a Node.js environment that supports `fetch` (Node.js v18+ or polyfilled).
+> ⚡ Requires **Node.js v18+** (or a polyfilled `fetch` environment).
 
 ---
 
+## 🚀 Usage Example
 
-## 🚀 Usage
+```javascript
+import { All_NSE } from "nse-stock-india";
 
-<img width="1345" height="417" alt="image" src="https://github.com/user-attachments/assets/667ff303-50c7-4509-8ab8-88ce3cfdc9c4" />
+const nse = new All_NSE();
 
+(async () => {
+  const liveData = await nse.getLiveData("RELIANCE");
+  console.log("Live Price Info:", liveData);
+
+  const fullData = await nse.getData("TCS");
+  console.log("Full Equity Data:", fullData);
+
+  const historical = await nse.getHistoricalData("INFY", "01-09-2024", "15-09-2024");
+  console.log("Historical Data:", historical);
+})();
+```
+
+---
 
 ## 📚 API Reference
 
 ### 🔹 `new All_NSE()`
-
 Creates a new instance of the NSE API class.
 
 ---
 
 ### 🔹 `async getCookie(symbol: string): Promise<string>`
+Fetches the required session cookies for a given NSE stock symbol.
 
-Fetches required session cookies for a given NSE stock symbol.
-
-* **symbol**: `string` - NSE ticker symbol (e.g., `'INFY'`)
-* **Returns**: `string` - Parsed cookies string
+- **symbol**: `string` – NSE ticker symbol (e.g., `'INFY'`)
+- **Returns**: `string` – A valid cookie string to be used in requests
 
 ---
 
 ### 🔹 `async getData(symbol: string): Promise<Object | null>`
+Fetches the **full equity quote** data from NSE.
 
-Fetches the **full equity quote** data from NSE for a symbol.
-
-* **symbol**: `string` - NSE ticker symbol
-* **Returns**: `Object` - Complete NSE response (includes `priceInfo`, `metadata`, `securityInfo`, etc.)
+- **symbol**: `string`
+- **Returns**: `Object` – Includes `priceInfo`, `metadata`, `securityInfo`, etc.
 
 ---
 
 ### 🔹 `async getLiveData(symbol: string): Promise<Object | null>`
+Fetches only the **`priceInfo`** field (live price details) from NSE.
 
-Fetches **only the `priceInfo`** field from NSE for a given symbol.
-
-* **symbol**: `string`
-* **Returns**: `Object` – Example structure:
+- **symbol**: `string`
+- **Returns**: `Object` – Example structure:
 
 ```json
 {
@@ -81,17 +90,29 @@ Fetches **only the `priceInfo`** field from NSE for a given symbol.
 
 ---
 
+### 🔹 `async getHistoricalData(symbol: string, from: string, to: string, series?: string[]): Promise<Object | null>`
+Fetches **historical OHLC data** for a stock symbol within a date range.
+
+- **symbol**: `string` – NSE ticker (e.g., `'INFY'`)
+- **from**: `string` – Start date (`"DD-MM-YYYY"`)
+- **to**: `string` – End date (`"DD-MM-YYYY"`)
+- **series**: `Array<string>` – Defaults to `["EQ"]` (equity series)
+- **Returns**: `Object` – Historical candles with OHLC + volume
+
+---
 
 ## 🛡️ Notes
 
-* This package simulates browser-like behavior by using cookies.
-* NSE actively blocks scraping. Rotate user-agents and IPs if necessary.
-* Always use for educational or personal projects; respect NSE's terms of service.
+- This package simulates browser-like behavior by sending cookies.
+- NSE may block aggressive scraping — rotate user-agents or IPs if necessary.
+- Intended for **educational & personal projects** only. Always respect NSE’s terms of service.
 
-### 📜 Legal Stuff
+---
 
-all-nse is distributed under the Apache Software License. See the LICENSE.txt file in the release for full details.
+## 📜 License & Disclaimer
 
-## ⚠️ DISCLAIMER: all-nse is not affiliated, endorsed, or vetted by the National Stock Exchange of India (NSE). It's an open-source tool that uses NSE’s publicly available data, and is intended for research and educational purposes. You should refer to NSE’s terms of use for details on your rights to use the actual data downloaded.
+**License:** Apache 2.0 — see [LICENSE](./LICENSE.txt).  
 
-You should refer to NSE’s terms of use for detailed information on your rights and limitations in using their data.
+⚠️ **Disclaimer:**  
+`all-nse` is **not affiliated with or endorsed by NSE India**.  
+It is an open-source utility that accesses publicly available NSE data for research & educational purposes. Please review NSE’s official terms of use before using this data in production or commercial applications.  
